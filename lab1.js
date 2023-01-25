@@ -1,4 +1,5 @@
 "use strict";
+const { v4: uuidv4 } = require("uuid");
 /**
  * Reflection question 1
  * your answer goes here
@@ -46,7 +47,11 @@ console.log(makeOptions(imported.inventory, "foundation"));
 
 console.log("\n--- Assignment 2 ---------------------------------------");
 class Salad {
+  static instanceCounter = 0;
+  id;
+  uuid;
   ingredients = {};
+
   constructor(arg) {
     if (typeof arg === "object") {
       console.log(arg.ingredients);
@@ -60,6 +65,8 @@ class Salad {
       Object.assign(target, src) copies an object
       */
     }
+    this.uuid = uuidv4();
+    this.id = "salad_" + Salad.instanceCounter++;
     return this;
   }
   add(name, properties) {
@@ -91,9 +98,7 @@ console.log("\n--- Assignment 3 ---------------------------------------");
 //adding getPrice() to sallad class
 
 Salad.prototype.getPrice = function () {
-  console.log("getPrice():");
   const ingre = Object.entries(this.ingredients);
-  console.log(ingre);
 
   const price = ingre.reduce((acc, curr) => {
     return acc + curr[1].price;
@@ -190,10 +195,10 @@ myGourmetSalad.add("Bacon", imported.inventory["Bacon"], 1);
 console.log("Med extra bacon kostar den " + myGourmetSalad.getPrice() + " kr");
 
 console.log("\n--- Assignment 6 ---------------------------------------");
-/*
-console.log('Min gourmetsallad har id: ' + myGourmetSalad.id);
-console.log('Min gourmetsallad har uuid: ' + myGourmetSalad.uuid);
-*/
+
+console.log("Min gourmetsallad har id: " + myGourmetSalad.id);
+console.log("Min gourmetsallad har uuid: " + myGourmetSalad.uuid);
+//The UUID works as the copies have different Uids
 
 /**
  * Reflection question 4
@@ -204,3 +209,47 @@ console.log('Min gourmetsallad har uuid: ' + myGourmetSalad.uuid);
 /**
  * Reflection question 6
  */
+
+/***
+ * Extra assignments
+ */
+console.log("-------- Extra assignment ---------");
+class Order {
+  basket; //the basket is an array of Salads
+  uuid;
+  constructor() {
+    this.uuid = uuidv4();
+    this.basket = [];
+    return this;
+  }
+  //adds the specified number of Salad objects to the basket
+  add(salad, num) {
+    while (num > 0) {
+      this.basket.push(salad);
+      num--;
+    }
+
+    return this;
+  }
+  //removes the salad from the basket
+  remove(salad) {
+    if (this.basket.length <= 0) {
+      console.log("Basket empty");
+      return this;
+    }
+    this.basket.pop(salad);
+    return this;
+  }
+  //calculates the total price of the order
+  getPrice() {
+    return this.basket.reduce((acc, curr) => {
+      return acc + curr.getPrice();
+    }, 0);
+  }
+}
+
+const order = new Order();
+order.add(myCaesarSalad, 2);
+order.add(objectCopy, 1);
+
+console.log(order.getPrice());
