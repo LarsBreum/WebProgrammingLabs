@@ -49,11 +49,16 @@ class Salad {
   ingredients = {};
   constructor(arg) {
     if (typeof arg === "object") {
-      this.ingredients = arg.ingredients;
+      console.log(arg.ingredients);
+      this.ingredients = Object.assign({}, arg.ingredients);
     }
 
     if (typeof arg === "string") {
-      this.ingredients = JSON.parse(arg);
+      console.log("string: " + arg);
+      this.ingredients = Object.assign({}, JSON.parse(arg));
+      /*
+      Object.assign(target, src) copies an object
+      */
     }
     return this;
   }
@@ -144,29 +149,26 @@ const jsonCopy = new Salad(json);
 console.log("myCesarSalad\n" + JSON.stringify(myCaesarSalad));
 console.log("copy from object\n" + JSON.stringify(objectCopy));
 console.log("copy from json\n" + JSON.stringify(jsonCopy));
-objectCopy.add("Gurka", imported.inventory["Gurka"]);
+
+objectCopy.add("Gurka", imported.inventory["Gurka"]); //gurka is added both to original and copy
+
 console.log("originalet kostar kostar " + myCaesarSalad.getPrice() + " kr");
 console.log("med gurka kostar den " + objectCopy.getPrice() + " kr");
 
 console.log("\n--- Assignment 5 ---------------------------------------");
 
-class GourmetSalad extends Salad {
-  super(args);
-  
-}
-
-let myGourmetSalad = new GourmetSalad()
-  .add("Sallad", imported.inventory["Sallad"], 0.5)
-  .add("Kycklingfilé", imported.inventory["Kycklingfilé"], 2)
-  .add("Bacon", imported.inventory["Bacon"], 0.5)
-  .add("Krutonger", imported.inventory["Krutonger"])
-  .add("Parmesan", imported.inventory["Parmesan"], 2)
-  .add("Ceasardressing", imported.inventory["Ceasardressing"]);
-console.log(
-  "Min gourmetsallad med lite bacon kostar " + myGourmetSalad.getPrice() + " kr"
-);
-myGourmetSalad.add("Bacon", imported.inventory["Bacon"], 1);
-console.log("Med extra bacon kostar den " + myGourmetSalad.getPrice() + " kr");
+// let myGourmetSalad = new GourmetSalad()
+//   .add("Sallad", imported.inventory["Sallad"], 0.5)
+//   .add("Kycklingfilé", imported.inventory["Kycklingfilé"], 2)
+//   .add("Bacon", imported.inventory["Bacon"], 0.5)
+//   .add("Krutonger", imported.inventory["Krutonger"])
+//   .add("Parmesan", imported.inventory["Parmesan"], 2)
+//   .add("Ceasardressing", imported.inventory["Ceasardressing"]);
+// console.log(
+//   "Min gourmetsallad med lite bacon kostar " + myGourmetSalad.getPrice() + " kr"
+// );
+// myGourmetSalad.add("Bacon", imported.inventory["Bacon"], 1);
+// console.log("Med extra bacon kostar den " + myGourmetSalad.getPrice() + " kr");
 
 console.log("\n--- Assignment 6 ---------------------------------------");
 /*
