@@ -250,6 +250,12 @@ class Order {
 
 const order = new Order();
 order.add(myCaesarSalad, 2);
+console.log(order.getPrice());
 order.add(objectCopy, 1);
+console.log(order.getPrice());
 
+order.remove(objectCopy);
+console.log(order.getPrice());
+
+order.remove(myCaesarSalad);
 console.log(order.getPrice());
