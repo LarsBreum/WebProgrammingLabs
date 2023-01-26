@@ -2,7 +2,10 @@
 const { v4: uuidv4 } = require("uuid");
 /**
  * Reflection question 1
- * your answer goes here
+ * In JavaScript, properties of an object that are not explicitly set are undefined, not false.
+ * Therefore, if a property is not present in an object, it is assumed to be undefined rather than false.
+ * This means that it is not necessary to explicitly store properties with the value false in JavaScript objects,
+ * as they can simply be omitted. 
  */
 
 const imported = require("./inventory.js");
@@ -22,25 +25,32 @@ for (const name in imported.inventory) {
 }
 /**
  * Reflection question 2
- */
-
-/**
- * Answer Question 2:
- * The for loop will print in the order the array is indexed (0,1,2,3 etc).
- * The names.forEach will do the same if not sorted. Not done with answer
+ * The two examples will give different outputs if the imported object has any non-enumerable properties.
+ * Object.keys() only returns an array of the object's own enumerable properties, while a for...in loop 
+ * iterates over the object's own and inherited enumerable properties.In javascript, the properties that
+ * are defined on the object directly are called own properties and the properties that are inherited from 
+ * the prototype chain are called inherited properties. The inherited functions like sort() are not enumerable
+ * by default which means it will not be included in the output of Object.keys() or for...in loop.
+ * If the imported object has any non-enumerable properties on its prototype chain, it will be included in the
+ * output of for...in loop but not in the output of Object.keys().
  */
 
 console.log("\n--- Assignment 1 ---------------------------------------");
 function makeOptions(inv, prop) {
-  let out = ``;
+  //let out = ``;
 
-  Object.entries(inv)
-    .filter((option) => Object.keys(option[1]).includes(prop))
-    .forEach((option) => {
-      out += `<option value="${option[0]}"> ${option[0]}, ${option[1].price} kr"</option>`;
-    });
+  // Object.entries(inv)
+  //   .filter((option) => Object.keys(option[1]).includes(prop))
+  //   .forEach((option) => {
+  //     out += `<option value="${option[0]}"> ${option[0]}, ${option[1].price} kr"</option>`;
+  //   });
 
-  return out;
+  // return out;
+  let filtered = Object.keys(inv).filter((name) => inv[name][prop]);
+  
+  let options = filtered.map(name => `<option value="${name}"> ${name}, ${inv[name]['price']}kr</option>`);
+
+  return options.reduce((acc, curr) => acc + "\n" + curr, '');
 }
 
 console.log(makeOptions(imported.inventory, "foundation"));
@@ -202,12 +212,24 @@ console.log("Min gourmetsallad har uuid: " + myGourmetSalad.uuid);
 
 /**
  * Reflection question 4
+ * In salad object
  */
 /**
  * Reflection question 5
+ * Yes, you can make the id property read-only in JavaScript using the setAttribute() method[1]
+. This method adds the read-only attribute to the form input field[1]
+. You can also use Object.defineProperty() or Object.freeze() to create read-only properties[2]
+. To remove a read-only attribute, you can use the removeAttribute() method[3]
+*[1]https://www.geeksforgeeks.org/how-to-add-readonly-attribute-to-an-input-tag-in-javascript/
+*[2] https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Read-only
+*[3]https://linuxhint.com/add-remove-readonly-attribute-javascript/
+*Yes, the id property can be made read-only in JavaScript. To do this, you can use the 
+*Object.defineProperty() method, which allows you to define a specific property on an 
+*object and specify its attributes, one of which is whether it is writable or not. 
  */
 /**
  * Reflection question 6
+ * Private properties in JavaScript can be created by using a hash # prefix
  */
 
 /***
