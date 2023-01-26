@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require("uuid");
  * In JavaScript, properties of an object that are not explicitly set are undefined, not false.
  * Therefore, if a property is not present in an object, it is assumed to be undefined rather than false.
  * This means that it is not necessary to explicitly store properties with the value false in JavaScript objects,
- * as they can simply be omitted. 
+ * as they can simply be omitted.
  */
 
 const imported = require("./inventory.js");
@@ -26,9 +26,9 @@ for (const name in imported.inventory) {
 /**
  * Reflection question 2
  * The two examples will give different outputs if the imported object has any non-enumerable properties.
- * Object.keys() only returns an array of the object's own enumerable properties, while a for...in loop 
+ * Object.keys() only returns an array of the object's own enumerable properties, while a for...in loop
  * iterates over the object's own and inherited enumerable properties.In javascript, the properties that
- * are defined on the object directly are called own properties and the properties that are inherited from 
+ * are defined on the object directly are called own properties and the properties that are inherited from
  * the prototype chain are called inherited properties. The inherited functions like sort() are not enumerable
  * by default which means it will not be included in the output of Object.keys() or for...in loop.
  * If the imported object has any non-enumerable properties on its prototype chain, it will be included in the
@@ -47,10 +47,13 @@ function makeOptions(inv, prop) {
 
   // return out;
   let filtered = Object.keys(inv).filter((name) => inv[name][prop]);
-  
-  let options = filtered.map(name => `<option value="${name}"> ${name}, ${inv[name]['price']}kr</option>`);
 
-  return options.reduce((acc, curr) => acc + "\n" + curr, '');
+  let options = filtered.map(
+    (name) =>
+      `<option value="${name}"> ${name}, ${inv[name]["price"]}kr</option>`
+  );
+
+  return options.reduce((acc, curr) => acc + "\n" + curr, "");
 }
 
 console.log(makeOptions(imported.inventory, "foundation"));
@@ -180,6 +183,7 @@ class GourmetSalad extends Salad {
   add(name, properties, size) {
     if (typeof size === "undefined") {
       //checks if "size is defined"
+
       this.ingredients[name] = properties; //does the same as the original function. Seems weird?
     } else {
       const props = Object.assign({}, properties); //copies the object
