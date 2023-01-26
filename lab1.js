@@ -62,17 +62,17 @@ console.log("\n--- Assignment 2 ---------------------------------------");
 class Salad {
   static instanceCounter = 0;
   id;
-  uuid;
+  uuid; //ska man ha "const uuid = ...", eller som attribut som vi har?
   ingredients = {};
 
   constructor(arg) {
     if (typeof arg === "object") {
-      console.log(arg.ingredients);
-      this.ingredients = Object.assign({}, arg.ingredients);
+      //console.log(arg.ingredients);
+      this.ingredients = Object.assign({}, arg.ingredients); //how to use ... operator??
     }
 
     if (typeof arg === "string") {
-      console.log("string: " + arg);
+      //console.log("string: " + arg);
       this.ingredients = Object.assign({}, JSON.parse(arg));
       /*
       Object.assign(target, src) copies an object
@@ -109,10 +109,8 @@ console.log(JSON.stringify(myCaesarSalad) + "\n");
 console.log("\n--- Assignment 3 ---------------------------------------");
 
 //adding getPrice() to sallad class
-
 Salad.prototype.getPrice = function () {
   const ingre = Object.entries(this.ingredients);
-
   const price = ingre.reduce((acc, curr) => {
     return acc + curr[1].price;
   }, 0);
@@ -144,6 +142,13 @@ console.log(
 console.log(
   "\n--- reflection question 3 ---------------------------------------"
 );
+
+/**
+ * Answer:
+ * the Salad class has a prototype property.
+ * The myCesarSalad does not
+ */
+
 console.log("typeof Salad: " + typeof Salad);
 console.log("typeof Salad.prototype: " + typeof Salad.prototype);
 console.log(
@@ -181,16 +186,17 @@ class GourmetSalad extends Salad {
     super(arg);
   }
   add(name, properties, size) {
+    //console.log(properties, size);
     if (typeof size === "undefined") {
       //checks if "size is defined"
-
-      this.ingredients[name] = properties; //does the same as the original function. Seems weird?
+      super.add(name, properties);
+      //this.ingredients[name] = properties; //does the same as the original function. Seems weird?
     } else {
       const props = Object.assign({}, properties); //copies the object
       props.price *= size; //changes the size
-      this.ingredients[name] = props; //adds the properties
+      super.add(name, props);
+      //this.ingredients[name] = props; //adds the properties
     }
-
     return this;
   }
 }
