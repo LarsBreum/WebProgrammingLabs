@@ -61,8 +61,6 @@ console.log(makeOptions(imported.inventory, "foundation"));
 console.log("\n--- Assignment 2 ---------------------------------------");
 class Salad {
   static instanceCounter = 0;
-  id;
-  uuid; //ska man ha "const uuid = ...", eller som attribut som vi har?
   ingredients = {};
 
   constructor(arg) {
@@ -186,8 +184,13 @@ class GourmetSalad extends Salad {
     super(arg);
   }
   add(name, properties, size) {
+    const propCopy = { ...properties };
+    propCopy.size = size == undefined ? 1 : size;
+
+    super.add(name, propCopy);
+
     //console.log(properties, size);
-    if (typeof size === "undefined") {
+    /* if (typeof size === "undefined") {
       //checks if "size is defined"
       super.add(name, properties);
       //this.ingredients[name] = properties; //does the same as the original function. Seems weird?
@@ -196,8 +199,14 @@ class GourmetSalad extends Salad {
       props.price *= size; //changes the size
       super.add(name, props);
       //this.ingredients[name] = props; //adds the properties
-    }
+    } */
     return this;
+  }
+  getPrice() {
+    return Object.entries(this.ingredients).reduce(
+      (acc, curr) => acc + curr.price * curr.size,
+      0
+    );
   }
 }
 
