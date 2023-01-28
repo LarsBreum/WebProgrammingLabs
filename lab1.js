@@ -185,7 +185,8 @@ class GourmetSalad extends Salad {
   }
   add(name, properties, size) {
     const propCopy = { ...properties };
-    propCopy.size = size == undefined ? 1 : size;
+
+    propCopy.size = size === undefined ? 1 : size;
 
     super.add(name, propCopy);
 
@@ -204,7 +205,7 @@ class GourmetSalad extends Salad {
   }
   getPrice() {
     return Object.entries(this.ingredients).reduce(
-      (acc, curr) => acc + curr.price * curr.size,
+      (acc, curr) => acc + curr[1].price * curr[1].size,
       0
     );
   }
